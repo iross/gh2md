@@ -4,7 +4,7 @@ BASE = r"""Export of Github issues for [{repo_name}]({repo_url}).{datestring}
 """
 
 ISSUE = r"""---
-state:{state}
+state: {state}
 owners:
 {assignees}
 labels:
