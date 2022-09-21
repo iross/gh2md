@@ -80,6 +80,7 @@ class GithubIssue:
     title: str
     created_at: datetime.datetime
     url: str
+    assignees: List[str]
 
 
 @dataclass
@@ -215,6 +216,11 @@ class GithubAPI:
                   url
                   avatarUrl
                 }
+                assignees(first: 10) {
+                    nodes{
+                      login
+                    }
+                  }
                 labels(first: $issuePerPage) {
                   nodes {
                     name
@@ -631,6 +637,7 @@ class GithubAPI:
                 )
             except Exception:
                 logger.warning(f"Error parsing comment, skipping: {c}", exc_info=True)
+
         return GithubIssue(
             pull_request=is_pull_request,
             user_login=i["author"]["login"] if i.get("author") else "(unknown)",
@@ -646,6 +653,7 @@ class GithubAPI:
             url=i["url"],
             label_names=[node["name"] for node in i["labels"]["nodes"]],
             comments=comments,
+            assignees=[node["login"] for node in  i["assignees"]["nodes"]],
         )
 
 
