@@ -754,8 +754,8 @@ def format_issue_to_markdown(issue: GithubIssue) -> Tuple[str, str]:
 
     labels = ""
     if issue.label_names:
-        labels = ", ".join(["`{}`".format(lab) for lab in issue.label_names])
-        labels = "**Labels**: {}\n\n".format(labels)
+        labels = ", ".join(["- {}".format(lab) for lab in issue.label_names])
+    assignees = "\n".join(["- {}".format(assignee) for assignee in issue.assignees])
 
     formatted_issue = templates_markdown.ISSUE.format(
         title=issue.title,
@@ -769,6 +769,7 @@ def format_issue_to_markdown(issue: GithubIssue) -> Tuple[str, str]:
         body=issue.body,
         comments=formatted_comments,
         labels=labels,
+        assignees=assignees,
     )
     slug = ".".join(
         [
