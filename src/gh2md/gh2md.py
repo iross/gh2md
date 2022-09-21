@@ -796,9 +796,7 @@ def main():
     if args.use_multiple_files:
         if os.path.exists(args.output_path):
             if len(os.listdir(args.output_path)):
-                raise RuntimeError(
-                    f"Output directory already exists and has files in it: {args.output_path}"
-                )
+                logger.warning(f"Directory exists! I might be overwriting or duplicating issues.")
         else:
             logger.info(f"Creating output directory: {args.output_path}")
             os.makedirs(args.output_path, exist_ok=True)
